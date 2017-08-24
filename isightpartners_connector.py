@@ -1,7 +1,7 @@
 # --
 # File: isightpartners_connector.py
 #
-# Copyright (c) Phantom Cyber Corporation, 2014-2016
+# Copyright (c) Phantom Cyber Corporation, 2014-2017
 #
 # This unpublished material is proprietary to Phantom Cyber.
 # All rights reserved. The methods and
@@ -34,8 +34,6 @@ import os
 import shutil
 from phantom.vault import Vault
 from bs4 import BeautifulSoup
-
-requests.packages.urllib3.disable_warnings()
 
 ARTIFACT_LABEL = "artifact"
 
