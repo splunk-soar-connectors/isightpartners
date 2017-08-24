@@ -10,10 +10,10 @@
     "product_vendor": "iSight Partners",
     "product_name": "ThreatScape",
     "product_version_regex": ".*",
-    "min_phantom_version": "1.2.236",
+    "min_phantom_version": "3.0.159",
     "publisher": "Phantom",
     "logo": "isightpartners.png",
-    "license": "Copyright (c) Phantom Cyber Corporation 2015-2016",
+    "license": "Copyright (c) Phantom Cyber Corporation 2015-2017",
     "app_config_render": "default",
     "configuration": {
       "api_url": {
