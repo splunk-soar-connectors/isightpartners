@@ -2,7 +2,7 @@
     "appid"    : "79af9fc7-da99-4107-a8fe-fdb887391cdc",
     "name"   : "iSight Partners",
     "package_name": "phantom_isightpartners",
-    "description": "This app integrates with iSight Partners' ThreatScape product. It implements the ingest action to pull campaign reports and parse them into containers with all the IOCs represented as artifacts. Investigative actions like 'hunt domain', 'hunt ip' etc. are also supported.",
+    "description": "This app integrates with iSight Partners' ThreatScape product to pull campaign reports and provide hunting capabilities",
     "type": "threat intel",
     "main_module": "isightpartners_connector.pyc",
     "app_version": "1.2.24",
@@ -10,7 +10,7 @@
     "product_vendor": "iSight Partners",
     "product_name": "ThreatScape",
     "product_version_regex": ".*",
-    "min_phantom_version": "3.0.159",
+    "min_phantom_version": "3.0.247",
     "publisher": "Phantom",
     "logo": "isightpartners.png",
     "license": "Copyright (c) Phantom Cyber Corporation 2015-2017",
@@ -33,7 +33,7 @@
       "api_key": {
         "description": "API Key", 
         "order": 2,
-        "data_type": "string",
+        "data_type": "password",
         "required": true
       },
       "secret": {
