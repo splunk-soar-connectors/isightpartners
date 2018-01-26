@@ -6,7 +6,7 @@
     "type": "threat intel",
     "main_module": "isightpartners_connector.pyc",
     "app_version": "1.2.27",
-    "utctime_updated": "2018-01-25T03:03:54.000000Z",
+    "utctime_updated": "2018-01-26T00:48:18.000000Z",
     "product_vendor": "iSight Partners",
     "product_name": "ThreatScape",
     "product_version_regex": ".*",
