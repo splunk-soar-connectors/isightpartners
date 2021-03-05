@@ -5,15 +5,16 @@
     "description": "This app integrates with iSight Partners' ThreatScape product to pull campaign reports and provide hunting capabilities",
     "type": "threat intel",
     "main_module": "isightpartners_connector.pyc",
-    "app_version": "1.2.28",
-    "utctime_updated": "2018-12-07T01:31:08.000000Z",
+    "app_version": "1.2.27",
+    "utctime_updated": "2018-01-26T00:48:18.000000Z",
     "product_vendor": "iSight Partners",
     "product_name": "ThreatScape",
     "product_version_regex": ".*",
     "min_phantom_version": "3.0.247",
     "publisher": "Phantom",
-    "logo": "isightpartners.png",
-    "license": "Copyright (c) Phantom Cyber Corporation 2014-2017",
+    "logo": "logo_isightpartners.svg",
+    "logo_dark": "logo_isightpartners_dark.svg",
+    "license": "Copyright (c) Phantom Cyber Corporation, 2015-2018",
     "app_config_render": "default",
     "configuration": {
         "api_url": {
@@ -33,7 +34,7 @@
         "api_key": {
             "description": "API Key",
             "order": 2,
-            "data_type": "password",
+            "data_type": "string",
             "required": true
         },
         "secret": {
