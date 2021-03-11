@@ -1,7 +1,7 @@
 # --
 # File: isightpartners_connector.py
 #
-# Copyright (c) Phantom Cyber Corporation, 2014-2018
+# Copyright (c) 2017-2021 Splunk Inc.
 #
 # This unpublished material is proprietary to Phantom Cyber.
 # All rights reserved. The methods and
@@ -20,6 +20,7 @@ from phantom.action_result import ActionResult
 # THIS Connector imports
 from isightpartners_consts import *
 
+import sys
 import requests
 import hashlib
 import email
@@ -32,7 +33,7 @@ from operator import itemgetter
 import tempfile
 import os
 import shutil
-from phantom.vault import Vault
+import phantom.rules as ph_rules
 from bs4 import BeautifulSoup
 
 ARTIFACT_LABEL = "artifact"
@@ -69,6 +70,7 @@ class IsightpartnersConnector(BaseConnector):
         self._api_url = None
         self._api_key = None
         self._secret = None
+        self._python_version = None
 
     def initialize(self):
 
@@ -79,6 +81,11 @@ class IsightpartnersConnector(BaseConnector):
 
         if (self._api_url.endswith('/')):
             self._api_url = self._api_url[:-1]
+
+        try:
+            self._python_version = int(sys.version_info[0])
+        except:
+            return self.set_status(phantom.APP_ERROR, "Error occurred while getting the Phantom server's Python major version.")
 
         self._api_key = config[ISIGHTPARTNERS_JSON_API_KEY]
         self._secret = config[ISIGHTPARTNERS_JSON_SECRET]
@@ -102,7 +109,7 @@ class IsightpartnersConnector(BaseConnector):
         if (bool(query_params) is False):
             return endpoint
 
-        return endpoint + '?' + '&'.join(['{0}={1}'.format(k, v) for k, v in query_params.iteritems()])
+        return endpoint + '?' + '&'.join(['{0}={1}'.format(k, v) for k, v in query_params.items()])
 
     def _get_headers(self, uri, accept_header='application/json'):
 
@@ -110,7 +117,10 @@ class IsightpartnersConnector(BaseConnector):
         new_data = uri + '2.0' + accept_header + time_stamp
 
         # hmac does not accept unicode
-        hashed = hmac.new(str(self._secret), str(new_data), hashlib.sha256)
+        if self._python_version < 3:
+            hashed = hmac.new(str(self._secret), str(new_data), hashlib.sha256)
+        else:
+            hashed = hmac.new(self._secret.encode('utf-8'), new_data.encode('utf-8'), hashlib.sha256)
         headers = {
                 'Accept': accept_header,
                 'Accept-Version': '2.0',
@@ -128,7 +138,7 @@ class IsightpartnersConnector(BaseConnector):
                 {"regex": "^[0-9a-fA-F]{40}$", "hash_type": "sha1"},
                 {"regex": "^[0-9a-fA-F]{64}$", "hash_type": "sha256"}]
 
-        match = filter(lambda x: bool(re.match(x['regex'], hash_val)), hash_types)
+        match = [x for x in hash_types if bool(re.match(x['regex'], hash_val))]
 
         if (match):
             return match[0]['hash_type']
@@ -794,7 +804,7 @@ class IsightpartnersConnector(BaseConnector):
             temp_dir = tempfile.mkdtemp()
             file_name = "isight_report_{}.pdf".format(report_id)
             file_path = os.path.join(temp_dir, file_name)
-            with open(file_path, 'w') as f:
+            with open(file_path, 'wb') as f:
                 f.write(r.content)
 
             self._move_file_to_vault(container_id, os.path.getsize(file_path), ISIGHTPARTNER_REPORT_FILE_TYPE, file_path, action_result)
@@ -818,16 +828,16 @@ class IsightpartnersConnector(BaseConnector):
         vault_details[phantom.APP_JSON_APP_RUN_ID] = self.get_app_run_id()
 
         file_name = os.path.basename(local_file_path)
-        vault_ret_dict = Vault.add_attachment(local_file_path, container_id, file_name, vault_details)
+        success, message, vault_id = ph_rules.vault_add(file_location=local_file_path, container=container_id,file_name=file_name, metadata=vault_details)
 
-        if (vault_ret_dict['succeeded']):
-            vault_details[phantom.APP_JSON_VAULT_ID] = vault_ret_dict[phantom.APP_JSON_HASH]
+        if success:
+            vault_details[phantom.APP_JSON_VAULT_ID] = vault_id
             vault_details[phantom.APP_JSON_NAME] = file_name
-            action_result.set_status(phantom.APP_SUCCESS, ISIGHTPARTNERS_SUCC_FILE_ADD_TO_VAULT, vault_id=vault_ret_dict[phantom.APP_JSON_HASH])
+            action_result.set_status(phantom.APP_SUCCESS, ISIGHTPARTNERS_SUCC_FILE_ADD_TO_VAULT, vault_id=vault_id)
         else:
-            self.debug_print("ERROR: Adding file to vault:", vault_ret_dict)
+            self.debug_print('Error Adding file to vault: success={}, message={}, vault_id={}'.format(success, message, vault_id))
             action_result.set_status(phantom.APP_ERROR, phantom.APP_ERR_FILE_ADD_TO_VAULT)
-            action_result.append_to_message('. ' + vault_ret_dict['message'])
+            action_result.append_to_message('. ' + message)
 
         return vault_details
 
@@ -860,7 +870,6 @@ class IsightpartnersConnector(BaseConnector):
 
 if __name__ == '__main__':
 
-    import sys
     try:
         import simplejson as json
     except:
@@ -869,7 +878,7 @@ if __name__ == '__main__':
     pudb.set_trace()
 
     if (len(sys.argv) < 2):
-        print "No test json specified as input"
+        print("No test json specified as input")
         exit(0)
 
     with open(sys.argv[1]) as f:
@@ -880,6 +889,6 @@ if __name__ == '__main__':
         connector = IsightpartnersConnector()
         connector.print_progress_message = True
         ret_val = connector._handle_action(json.dumps(in_json), None)
-        print ret_val
+        print(ret_val)
 
     exit(0)

@@ -4,17 +4,21 @@
     "package_name": "phantom_isightpartners",
     "description": "This app integrates with iSight Partners' ThreatScape product to pull campaign reports and provide hunting capabilities",
     "type": "threat intel",
-    "main_module": "isightpartners_connector.pyc",
-    "app_version": "1.2.27",
+    "main_module": "isightpartners_connector.py",
+    "app_version": "2.0.0",
     "utctime_updated": "2018-01-26T00:48:18.000000Z",
     "product_vendor": "iSight Partners",
     "product_name": "ThreatScape",
     "product_version_regex": ".*",
-    "min_phantom_version": "3.0.247",
-    "publisher": "Phantom",
+    "min_phantom_version": "4.9.39220",
+    "latest_tested_versions": [
+        "iSight Partners (FireEye) Cloud, 2021 on 03/09/2021"
+    ],
+    "python_version": "3",
+    "publisher": "Splunk",
     "logo": "logo_isightpartners.svg",
     "logo_dark": "logo_isightpartners_dark.svg",
-    "license": "Copyright (c) Phantom Cyber Corporation, 2015-2018",
+    "license": "Copyright (c) 2017-2021 Splunk Inc.",
     "app_config_render": "default",
     "configuration": {
         "api_url": {
@@ -27,7 +31,6 @@
         "verify_server_cert": {
             "data_type": "boolean",
             "description": "Verify server certificate",
-            "required": true,
             "order": 1,
             "default": true
         },
@@ -47,7 +50,6 @@
             "description": "Add report pdf to vault during ingestion",
             "data_type": "boolean",
             "order": 4,
-            "required": false,
             "default": true
         }
     },
@@ -56,14 +58,13 @@
             "data_type": "numeric",
             "order": 0,
             "description": "Interval (days) used during 'Poll Now'",
-            "value": "5",
-            "required": false
+            "value": "5"
         }
     },
     "actions": [
         {
             "action": "test connectivity",
-            "description": "Validate the asset configuration for connectivity.",
+            "description": "Validate the asset configuration for connectivity",
             "type": "test",
             "identifier": "test_asset_connectivity",
             "read_only": true,
@@ -101,12 +102,17 @@
             "output": [
                 {
                     "data_path": "action_result.status",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.hash",
                     "data_type": "string",
                     "column_name": "Hash",
+                    "example_value": "2798c0e836b907e8224520e7e6e4test",
                     "column_order": 0,
                     "contains": [
                         "hash",
@@ -117,7 +123,8 @@
                 },
                 {
                     "data_path": "action_result.message",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_value": "Reports matched: 2"
                 },
                 {
                     "data_path": "action_result.data.*.threatscape_info",
@@ -212,7 +219,11 @@
             "output": [
                 {
                     "data_path": "action_result.status",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.domain",
@@ -221,11 +232,13 @@
                         "domain"
                     ],
                     "column_name": "Domain",
-                    "column_order": 0
+                    "column_order": 0,
+                    "example_value": "testing123.onion"
                 },
                 {
                     "data_path": "action_result.message",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_value": "Reports matched: 2"
                 },
                 {
                     "data_path": "action_result.data.*.title",
@@ -269,7 +282,7 @@
                     "contains": [
                         "isightpartners report id"
                     ],
-                    "column_name": "Report Id",
+                    "column_name": "Report ID",
                     "column_order": 4
                 },
                 {
@@ -320,20 +333,26 @@
             "output": [
                 {
                     "data_path": "action_result.status",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.ip",
                     "data_type": "string",
                     "column_name": "IP",
                     "column_order": 0,
+                    "example_value": "8.8.8.8",
                     "contains": [
                         "ip"
                     ]
                 },
                 {
                     "data_path": "action_result.message",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_value": "Reports matched: 3"
                 },
                 {
                     "data_path": "action_result.data.*.title",
@@ -428,7 +447,11 @@
             "output": [
                 {
                     "data_path": "action_result.status",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.url",
@@ -437,11 +460,13 @@
                         "url"
                     ],
                     "column_name": "URL",
-                    "column_order": 0
+                    "column_order": 0,
+                    "example_value": "http://test123.onion/"
                 },
                 {
                     "data_path": "action_result.message",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_value": "Reports matched: 3"
                 },
                 {
                     "data_path": "action_result.data.*.title",
@@ -485,7 +510,7 @@
                     "contains": [
                         "isightpartners report id"
                     ],
-                    "column_name": "Report Id",
+                    "column_name": "Report ID",
                     "column_order": 4
                 },
                 {
@@ -511,7 +536,7 @@
         },
         {
             "action": "get report",
-            "description": "Get report details.",
+            "description": "Get report details",
             "type": "investigate",
             "identifier": "get_report",
             "read_only": true,
@@ -530,25 +555,30 @@
                     "description": "Download the report pdf to vault",
                     "data_type": "boolean",
                     "order": 1,
-                    "required": false,
                     "default": false
                 }
             },
             "output": [
                 {
                     "data_path": "action_result.status",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.id",
                     "data_type": "string",
                     "contains": [
                         "isightpartners report id"
-                    ]
+                    ],
+                    "example_value": "21-43211234"
                 },
                 {
                     "data_path": "action_result.parameter.download_report",
-                    "data_type": "boolean"
+                    "data_type": "boolean",
+                    "example_value": true
                 },
                 {
                     "data_path": "action_result.message",
@@ -677,13 +707,74 @@
                 {
                     "data_path": "summary.total_objects_successful",
                     "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.report.previousVersionSection.previousVersion.*.title",
+                    "data_type": "string",
+                    "example_value": "Threat Activity Alert"
+                },
+                {
+                    "data_path": "action_result.data.*.report.previousVersionSection.previousVersion.*.publishDate",
+                    "data_type": "string",
+                    "example_value": "March 05, 2021 11:07:00 AM"
+                },
+                {
+                    "data_path": "action_result.data.*.report.previousVersionSection.previousVersion.*.versionNumber",
+                    "data_type": "string",
+                    "example_value": "1.0"
+                },
+                {
+                    "data_path": "action_result.data.*.name",
+                    "data_type": "string",
+                    "example_value": "isight_report_00-00000000.pdf"
+                },
+                {
+                    "data_path": "action_result.data.*.size",
+                    "data_type": "numeric",
+                    "example_value": 72469
+                },
+                {
+                    "data_path": "action_result.data.*.type",
+                    "data_type": "string",
+                    "example_value": "isightpartners report file"
+                },
+                {
+                    "data_path": "action_result.data.*.action",
+                    "data_type": "string",
+                    "example_value": "get report"
+                },
+                {
+                    "data_path": "action_result.data.*.vault_id",
+                    "data_type": "string",
+                    "example_value": "182351f4bd658f2e2b1a0test803667ba0e933e4"
+                },
+                {
+                    "data_path": "action_result.data.*.app_run_id",
+                    "data_type": "numeric",
+                    "example_value": 1111
+                },
+                {
+                    "data_path": "action_result.data.*.report.tagSection.files.file.*.type",
+                    "data_type": "string",
+                    "example_value": "text/x-php"
+                },
+                {
+                    "data_path": "action_result.data.*.report.tagSection.networks.network.*.port",
+                    "data_type": "string",
+                    "example_value": "80"
+                },
+                {
+                    "data_path": "action_result.data.*.report.tagSection.networks.network.*.protocol",
+                    "data_type": "string",
+                    "example_value": "http"
                 }
             ],
             "versions": "EQ(*)"
         },
         {
             "action": "on poll",
-            "description": "Callback action for the on_poll ingest functionality.",
+            "description": "Callback action for the on_poll ingest functionality",
+            "verbose": "<table><tr><th>Parameter</th><th>Default Value</th></tr><tr><td>Start Time</td><td>Past 10 days</td></tr><tr><td>End Time</td><td>Now</td></tr></table>",
             "type": "ingest",
             "identifier": "on_poll",
             "read_only": true,
@@ -691,26 +782,24 @@
                 "container_id": {
                     "data_type": "string",
                     "order": 0,
-                    "description": "Container IDs to limit the ingestion to.",
+                    "description": "Container IDs to limit the ingestion to",
                     "allow_list": true
                 },
                 "start_time": {
                     "data_type": "numeric",
-                    "description": "Start of time range, in epoch time (milliseconds)",
-                    "verbose": "If not specified, the default is past 10 days"
+                    "description": "Start of time range, in epoch time (milliseconds)"
                 },
                 "end_time": {
                     "data_type": "numeric",
-                    "description": "End of time range, in epoch time (milliseconds)",
-                    "verbose": "If not specified, the default is now"
+                    "description": "End of time range, in epoch time (milliseconds)"
                 },
                 "container_count": {
                     "data_type": "numeric",
-                    "description": "Maximum number of container records to query for."
+                    "description": "Maximum number of container records to query for"
                 },
                 "artifact_count": {
                     "data_type": "numeric",
-                    "description": "Maximum number of artifact records to query for."
+                    "description": "Maximum number of artifact records to query for"
                 }
             },
             "output": [],

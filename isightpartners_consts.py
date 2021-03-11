@@ -1,7 +1,7 @@
 # --
 # File: isightpartners_consts.py
 #
-# Copyright (c) Phantom Cyber Corporation, 2014-2018
+# Copyright (c) 2017-2021 Splunk Inc.
 #
 # This unpublished material is proprietary to Phantom Cyber.
 # All rights reserved. The methods and
