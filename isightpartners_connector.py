@@ -109,7 +109,7 @@ class IsightpartnersConnector(BaseConnector):
         if (bool(query_params) is False):
             return endpoint
 
-        return endpoint + '?' + '&'.join(['{0}={1}'.format(k, v) for k, v in query_params.items()])
+        return endpoint + '?' + '&'.join(['{0}={1}'.format(k, v) for k, v in list(query_params.items())])
 
     def _get_headers(self, uri, accept_header='application/json'):
 
@@ -644,8 +644,8 @@ class IsightpartnersConnector(BaseConnector):
             return self.set_status(phantom.APP_ERROR, ISIGHTPARTNERS_ERR_END_TIME_LT_START_TIME)
 
         self.debug_print("start_time: {0} end_time: {1}".format(start_time, end_time))
-        start_time = start_time / 1000
-        end_time = end_time / 1000
+        start_time = start_time // 1000
+        end_time = end_time // 1000
         self.debug_print("start_time in secs: {0} end_time in secs: {1}".format(start_time, end_time))
 
         if ((end_time - start_time) > ISIGHTPARTNERS_MAX_DAYS_SECONDS):
