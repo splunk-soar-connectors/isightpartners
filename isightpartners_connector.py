@@ -1,7 +1,7 @@
 # --
 # File: isightpartners_connector.py
 #
-# Copyright (c) 2017-2021 Splunk Inc.
+# Copyright (c) 2014-2021 Splunk Inc.
 #
 # This unpublished material is proprietary to Phantom Cyber.
 # All rights reserved. The methods and
