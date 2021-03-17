@@ -319,6 +319,8 @@ class IsightpartnersConnector(BaseConnector):
 
         if (param.get(ISIGHTPARTNERS_JSON_DOWNLOAD_REPORT, False)):
             ret_val = self._download_report_pdf(report_id, self.get_container_id(), action_result)
+        else:
+            action_result.set_status(phantom.APP_SUCCESS, ISIGHTPARTNERS_SUCC_GOT_REPORT_DETAILS)
 
         return ret_val
 
@@ -824,7 +826,7 @@ class IsightpartnersConnector(BaseConnector):
         vault_details[phantom.APP_JSON_APP_RUN_ID] = self.get_app_run_id()
 
         file_name = os.path.basename(local_file_path)
-        success, message, vault_id = ph_rules.vault_add(file_location=local_file_path, container=container_id,file_name=file_name, metadata=vault_details)
+        success, message, vault_id = ph_rules.vault_add(file_location=local_file_path, container=container_id, file_name=file_name, metadata=vault_details)
 
         if success:
             vault_details[phantom.APP_JSON_VAULT_ID] = vault_id
@@ -863,6 +865,7 @@ class IsightpartnersConnector(BaseConnector):
             self.save_progress("Time taken: {0}".format(human_time))
 
         return result
+
 
 if __name__ == '__main__':
 

@@ -47,6 +47,7 @@ ISIGHTPARTNERS_MSG_NO_RESULTS_CONTAINER_ID = "The queried container id was not f
 ISIGHTPARTNERS_MSG_RESULTS_CONTAINER_ID = "Got Reports matching specified container id"
 ISIGHTPARTNERS_SUCC_FILE_ADD_TO_VAULT = "Report file added to vault"
 ISIGHTPARTNERS_MSG_DOWNLOADING_REPORT = "Downloading report pdf"
+ISIGHTPARTNERS_SUCC_GOT_REPORT_DETAILS = "Successfully got report details"
 ISIGHTPARTNERS_MSG_SET_CORRECT_TIME = "\r\nPlease make sure the system time is correct."
 ISIGHTPARTNERS_MSG_SET_CORRECT_TIME += "\r\niSight credentials validation might fail in case the time is misconfigured"
 ISIGHTPARTNERS_ERR_JSON_PARSE = "Unable to parse reply as a Json, raw string reply: '{raw_text}'"

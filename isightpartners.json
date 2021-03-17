@@ -558,6 +558,13 @@
                     "default": false
                 }
             },
+            "render": {
+                "width": 12,
+                "height": 5,
+                "title": "Get Report",
+                "type": "custom",
+                "view": "isightpartners_views.get_report"
+            },
             "output": [
                 {
                     "data_path": "action_result.status",
