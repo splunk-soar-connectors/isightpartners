@@ -122,45 +122,20 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.message",
-                    "data_type": "string",
-                    "example_value": "Reports matched: 2"
-                },
-                {
-                    "data_path": "action_result.data.*.threatscape_info",
-                    "data_type": "string",
-                    "column_name": "Threatscape",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.data.*.title",
-                    "data_type": "string",
-                    "column_name": "Report Title",
-                    "column_order": 1
-                },
-                {
                     "data_path": "action_result.data.*.ThreatScape",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.reportLink",
+                    "data_path": "action_result.data.*.matchedOn.*.key",
                     "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.webLink",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.publishDate",
-                    "data_type": "numeric"
                 },
                 {
                     "data_path": "action_result.data.*.matchedOn.*.value",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.matchedOn.*.key",
-                    "data_type": "string"
+                    "data_path": "action_result.data.*.publishDate",
+                    "data_type": "numeric"
                 },
                 {
                     "data_path": "action_result.data.*.published_date",
@@ -178,8 +153,33 @@
                     "column_order": 4
                 },
                 {
+                    "data_path": "action_result.data.*.reportLink",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.threatscape_info",
+                    "data_type": "string",
+                    "column_name": "Threatscape",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.title",
+                    "data_type": "string",
+                    "column_name": "Report Title",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data.*.webLink",
+                    "data_type": "string"
+                },
+                {
                     "data_path": "action_result.summary.reports_matched",
                     "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_value": "Reports matched: 2"
                 },
                 {
                     "data_path": "summary.total_objects",
@@ -236,32 +236,15 @@
                     "example_value": "testing123.onion"
                 },
                 {
-                    "data_path": "action_result.message",
-                    "data_type": "string",
-                    "example_value": "Reports matched: 2"
-                },
-                {
-                    "data_path": "action_result.data.*.title",
-                    "data_type": "string",
-                    "column_name": "Report Title",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.data.*.threatscape_info",
-                    "data_type": "string",
-                    "column_name": "ThreatScape",
-                    "column_order": 2
-                },
-                {
                     "data_path": "action_result.data.*.ThreatScape",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.reportLink",
+                    "data_path": "action_result.data.*.matchedOn.*.key",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.webLink",
+                    "data_path": "action_result.data.*.matchedOn.*.value",
                     "data_type": "string"
                 },
                 {
@@ -269,12 +252,10 @@
                     "data_type": "numeric"
                 },
                 {
-                    "data_path": "action_result.data.*.matchedOn.*.value",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.matchedOn.*.key",
-                    "data_type": "string"
+                    "data_path": "action_result.data.*.published_date",
+                    "data_type": "string",
+                    "column_name": "Published Date",
+                    "column_order": 3
                 },
                 {
                     "data_path": "action_result.data.*.reportId",
@@ -286,14 +267,33 @@
                     "column_order": 4
                 },
                 {
-                    "data_path": "action_result.data.*.published_date",
+                    "data_path": "action_result.data.*.reportLink",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.threatscape_info",
                     "data_type": "string",
-                    "column_name": "Published Date",
-                    "column_order": 3
+                    "column_name": "ThreatScape",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.title",
+                    "data_type": "string",
+                    "column_name": "Report Title",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data.*.webLink",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.summary.reports_matched",
                     "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_value": "Reports matched: 2"
                 },
                 {
                     "data_path": "summary.total_objects",
@@ -350,45 +350,20 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.message",
-                    "data_type": "string",
-                    "example_value": "Reports matched: 3"
-                },
-                {
-                    "data_path": "action_result.data.*.title",
-                    "data_type": "string",
-                    "column_name": "Report Title",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.data.*.threatscape_info",
-                    "data_type": "string",
-                    "column_name": "ThreatScape",
-                    "column_order": 2
-                },
-                {
                     "data_path": "action_result.data.*.ThreatScape",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.reportLink",
+                    "data_path": "action_result.data.*.matchedOn.*.key",
                     "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.webLink",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.publishDate",
-                    "data_type": "numeric"
                 },
                 {
                     "data_path": "action_result.data.*.matchedOn.*.value",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.matchedOn.*.key",
-                    "data_type": "string"
+                    "data_path": "action_result.data.*.publishDate",
+                    "data_type": "numeric"
                 },
                 {
                     "data_path": "action_result.data.*.published_date",
@@ -406,8 +381,33 @@
                     "column_order": 4
                 },
                 {
+                    "data_path": "action_result.data.*.reportLink",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.threatscape_info",
+                    "data_type": "string",
+                    "column_name": "ThreatScape",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.title",
+                    "data_type": "string",
+                    "column_name": "Report Title",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data.*.webLink",
+                    "data_type": "string"
+                },
+                {
                     "data_path": "action_result.summary.reports_matched",
                     "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_value": "Reports matched: 3"
                 },
                 {
                     "data_path": "summary.total_objects",
@@ -464,32 +464,15 @@
                     "example_value": "http://test123.onion/"
                 },
                 {
-                    "data_path": "action_result.message",
-                    "data_type": "string",
-                    "example_value": "Reports matched: 3"
-                },
-                {
-                    "data_path": "action_result.data.*.title",
-                    "data_type": "string",
-                    "column_name": "Report Title",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.data.*.threatscape_info",
-                    "data_type": "string",
-                    "column_name": "ThreatScape",
-                    "column_order": 2
-                },
-                {
                     "data_path": "action_result.data.*.ThreatScape",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.reportLink",
+                    "data_path": "action_result.data.*.matchedOn.*.key",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.webLink",
+                    "data_path": "action_result.data.*.matchedOn.*.value",
                     "data_type": "string"
                 },
                 {
@@ -497,12 +480,10 @@
                     "data_type": "numeric"
                 },
                 {
-                    "data_path": "action_result.data.*.matchedOn.*.value",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.matchedOn.*.key",
-                    "data_type": "string"
+                    "data_path": "action_result.data.*.published_date",
+                    "data_type": "string",
+                    "column_name": "Published Date",
+                    "column_order": 3
                 },
                 {
                     "data_path": "action_result.data.*.reportId",
@@ -514,14 +495,33 @@
                     "column_order": 4
                 },
                 {
-                    "data_path": "action_result.data.*.published_date",
+                    "data_path": "action_result.data.*.reportLink",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.threatscape_info",
                     "data_type": "string",
-                    "column_name": "Published Date",
-                    "column_order": 3
+                    "column_name": "ThreatScape",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.title",
+                    "data_type": "string",
+                    "column_name": "Report Title",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data.*.webLink",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.summary.reports_matched",
                     "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_value": "Reports matched: 3"
                 },
                 {
                     "data_path": "summary.total_objects",
@@ -575,6 +575,11 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.parameter.download_report",
+                    "data_type": "boolean",
+                    "example_value": true
+                },
+                {
                     "data_path": "action_result.parameter.id",
                     "data_type": "string",
                     "contains": [
@@ -583,12 +588,22 @@
                     "example_value": "21-43211234"
                 },
                 {
-                    "data_path": "action_result.parameter.download_report",
-                    "data_type": "boolean",
-                    "example_value": true
+                    "data_path": "action_result.data.*.action",
+                    "data_type": "string",
+                    "example_value": "get report"
                 },
                 {
-                    "data_path": "action_result.message",
+                    "data_path": "action_result.data.*.app_run_id",
+                    "data_type": "numeric",
+                    "example_value": 1111
+                },
+                {
+                    "data_path": "action_result.data.*.name",
+                    "data_type": "string",
+                    "example_value": "isight_report_00-00000000.pdf"
+                },
+                {
+                    "data_path": "action_result.data.*.report.ThreatScape.product",
                     "data_type": "string"
                 },
                 {
@@ -596,27 +611,42 @@
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.report.title",
+                    "data_path": "action_result.data.*.report.execSummary",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.report.threatDetail",
+                    "data_path": "action_result.data.*.report.keyPoints",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.report.ThreatScape.product",
+                    "data_path": "action_result.data.*.report.overview",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.report.tagSection.files.file.*.sha1",
+                    "data_path": "action_result.data.*.report.previousVersionSection.previousVersion.*.publishDate",
                     "data_type": "string",
-                    "contains": [
-                        "sha1",
-                        "hash"
-                    ]
+                    "example_value": "March 05, 2021 11:07:00 AM"
                 },
                 {
-                    "data_path": "action_result.data.*.report.tagSection.files.file.*.identifier",
+                    "data_path": "action_result.data.*.report.previousVersionSection.previousVersion.*.title",
+                    "data_type": "string",
+                    "example_value": "Threat Activity Alert"
+                },
+                {
+                    "data_path": "action_result.data.*.report.previousVersionSection.previousVersion.*.versionNumber",
+                    "data_type": "string",
+                    "example_value": "1.0"
+                },
+                {
+                    "data_path": "action_result.data.*.report.publishDate",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.report.reportId",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.report.reportType",
                     "data_type": "string"
                 },
                 {
@@ -631,12 +661,8 @@
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.report.tagSection.files.file.*.sha256",
-                    "data_type": "string",
-                    "contains": [
-                        "sha256",
-                        "hash"
-                    ]
+                    "data_path": "action_result.data.*.report.tagSection.files.file.*.identifier",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.report.tagSection.files.file.*.md5",
@@ -647,29 +673,28 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.report.tagSection.files.file.*.sha1",
+                    "data_type": "string",
+                    "contains": [
+                        "sha1",
+                        "hash"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.report.tagSection.files.file.*.sha256",
+                    "data_type": "string",
+                    "contains": [
+                        "sha256",
+                        "hash"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.report.tagSection.files.file.*.type",
+                    "data_type": "string",
+                    "example_value": "text/x-php"
+                },
+                {
                     "data_path": "action_result.data.*.report.tagSection.main.affectedIndustries.affectedIndustry",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.report.tagSection.networks.network.*.url",
-                    "data_type": "string",
-                    "contains": [
-                        "url"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.report.tagSection.networks.network.*.networkType",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.report.tagSection.networks.network.*.ip",
-                    "data_type": "string",
-                    "contains": [
-                        "ip"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.report.tagSection.networks.network.*.identifier",
                     "data_type": "string"
                 },
                 {
@@ -680,60 +705,48 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.report.keyPoints",
+                    "data_path": "action_result.data.*.report.tagSection.networks.network.*.identifier",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.report.publishDate",
+                    "data_path": "action_result.data.*.report.tagSection.networks.network.*.ip",
+                    "data_type": "string",
+                    "contains": [
+                        "ip"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.report.tagSection.networks.network.*.networkType",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.report.tagSection.networks.network.*.port",
+                    "data_type": "string",
+                    "example_value": "80"
+                },
+                {
+                    "data_path": "action_result.data.*.report.tagSection.networks.network.*.protocol",
+                    "data_type": "string",
+                    "example_value": "http"
+                },
+                {
+                    "data_path": "action_result.data.*.report.tagSection.networks.network.*.url",
+                    "data_type": "string",
+                    "contains": [
+                        "url"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.report.threatDetail",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.report.title",
                     "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.report.version",
                     "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.report.reportType",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.report.reportId",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.report.execSummary",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.report.overview",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.report.previousVersionSection.previousVersion.*.title",
-                    "data_type": "string",
-                    "example_value": "Threat Activity Alert"
-                },
-                {
-                    "data_path": "action_result.data.*.report.previousVersionSection.previousVersion.*.publishDate",
-                    "data_type": "string",
-                    "example_value": "March 05, 2021 11:07:00 AM"
-                },
-                {
-                    "data_path": "action_result.data.*.report.previousVersionSection.previousVersion.*.versionNumber",
-                    "data_type": "string",
-                    "example_value": "1.0"
-                },
-                {
-                    "data_path": "action_result.data.*.name",
-                    "data_type": "string",
-                    "example_value": "isight_report_00-00000000.pdf"
                 },
                 {
                     "data_path": "action_result.data.*.size",
@@ -746,34 +759,25 @@
                     "example_value": "isightpartners report file"
                 },
                 {
-                    "data_path": "action_result.data.*.action",
-                    "data_type": "string",
-                    "example_value": "get report"
-                },
-                {
                     "data_path": "action_result.data.*.vault_id",
                     "data_type": "string",
                     "example_value": "182351f4bd658f2e2b1a0test803667ba0e933e4"
                 },
                 {
-                    "data_path": "action_result.data.*.app_run_id",
-                    "data_type": "numeric",
-                    "example_value": 1111
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.report.tagSection.files.file.*.type",
-                    "data_type": "string",
-                    "example_value": "text/x-php"
+                    "data_path": "action_result.message",
+                    "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.report.tagSection.networks.network.*.port",
-                    "data_type": "string",
-                    "example_value": "80"
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
                 },
                 {
-                    "data_path": "action_result.data.*.report.tagSection.networks.network.*.protocol",
-                    "data_type": "string",
-                    "example_value": "http"
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
                 }
             ],
             "versions": "EQ(*)"
