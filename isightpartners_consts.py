@@ -1,14 +1,10 @@
 # --
 # File: isightpartners_consts.py
 #
-# Copyright (c) Phantom Cyber Corporation, 2014-2017
+# Copyright (c) 2014-2021 Splunk Inc.
 #
-# This unpublished material is proprietary to Phantom Cyber.
-# All rights reserved. The methods and
-# techniques described herein are considered trade secrets
-# and/or confidential. Reproduction or distribution, in whole
-# or in part, is forbidden except by express written permission
-# of Phantom Cyber.
+# SPLUNK CONFIDENTIAL - Use or disclosure of this material in whole or in part
+# without a valid written license from Splunk Inc. is PROHIBITED.
 #
 # --
 
@@ -51,6 +47,7 @@ ISIGHTPARTNERS_MSG_NO_RESULTS_CONTAINER_ID = "The queried container id was not f
 ISIGHTPARTNERS_MSG_RESULTS_CONTAINER_ID = "Got Reports matching specified container id"
 ISIGHTPARTNERS_SUCC_FILE_ADD_TO_VAULT = "Report file added to vault"
 ISIGHTPARTNERS_MSG_DOWNLOADING_REPORT = "Downloading report pdf"
+ISIGHTPARTNERS_SUCC_GOT_REPORT_DETAILS = "Successfully got report details"
 ISIGHTPARTNERS_MSG_SET_CORRECT_TIME = "\r\nPlease make sure the system time is correct."
 ISIGHTPARTNERS_MSG_SET_CORRECT_TIME += "\r\niSight credentials validation might fail in case the time is misconfigured"
 ISIGHTPARTNERS_ERR_JSON_PARSE = "Unable to parse reply as a Json, raw string reply: '{raw_text}'"
