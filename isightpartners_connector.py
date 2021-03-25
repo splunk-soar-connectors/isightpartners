@@ -102,7 +102,7 @@ class IsightpartnersConnector(BaseConnector):
 
     def _get_uri(self, endpoint, query_params=None):
 
-        if bool(query_params) is False:
+        if not query_params:
             return endpoint
 
         return endpoint + '?' + '&'.join(['{0}={1}'.format(k, v) for k, v in query_params.items()])
@@ -134,7 +134,7 @@ class IsightpartnersConnector(BaseConnector):
                 {"regex": "^[0-9a-fA-F]{40}$", "hash_type": "sha1"},
                 {"regex": "^[0-9a-fA-F]{64}$", "hash_type": "sha256"}]
 
-        match = [x for x in hash_types if bool(re.match(x['regex'], hash_val))]
+        match = [x for x in hash_types if re.match(x['regex'], hash_val)]
 
         if match:
             return match[0]['hash_type']
@@ -171,7 +171,7 @@ class IsightpartnersConnector(BaseConnector):
             return (action_result.set_status(phantom.APP_ERROR, msg_string, e), None)
 
         # Look for errors
-        if r.status_code != requests.codes.ok:  # pylint: disable=E1101
+        if r.status_code != requests.codes.ok:  # pylint: disable=maybe-no-member
 
             # init the message dict
             message = {}
@@ -223,10 +223,10 @@ class IsightpartnersConnector(BaseConnector):
         if messages is None:
             return
 
-        if type(messages) is dict:
+        if isinstance(messages, dict):
             return self._parse_response_message_dict(messages, summary_key, action_result)
 
-        if type(messages) is list:
+        if isinstance(messages, list):
             return self._parse_response_message_list(messages, summary_key, action_result)
 
     def _hunt_domain(self, param):
@@ -420,7 +420,7 @@ class IsightpartnersConnector(BaseConnector):
             return self.get_status()
 
         # key is present
-        if response['success'] is False:
+        if not response['success']:
 
             # Failed
             self.set_status(phantom.APP_ERROR)
@@ -777,7 +777,7 @@ class IsightpartnersConnector(BaseConnector):
         if r.status_code == 204:
             return action_result.set_status(phantom.APP_SUCCESS, ISIGHTPARTNERS_MSG_NO_RESULTS)
 
-        if r.status_code != requests.codes.ok:  # pylint: disable=E1101
+        if r.status_code != requests.codes.ok:  # pylint: disable=maybe-no-member
 
             content_type = r.headers['content-type']
 
@@ -798,7 +798,7 @@ class IsightpartnersConnector(BaseConnector):
 
             return (action_result.set_status(phantom.APP_ERROR, msg_string), None)
 
-        if r.status_code == requests.codes.ok:  # pylint: disable=E1101
+        if r.status_code == requests.codes.ok:  # pylint: disable=maybe-no-member
             temp_dir = tempfile.mkdtemp()
             file_name = "isight_report_{}.pdf".format(report_id)
             file_path = os.path.join(temp_dir, file_name)
