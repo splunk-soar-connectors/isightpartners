@@ -58,7 +58,7 @@
             "data_type": "numeric",
             "order": 0,
             "description": "Interval (days) used during 'Poll Now'",
-            "value": "5"
+            "value": 5
         }
     },
     "actions": [
