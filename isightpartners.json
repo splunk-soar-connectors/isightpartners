@@ -10,7 +10,7 @@
     "product_vendor": "iSight Partners",
     "product_name": "ThreatScape",
     "product_version_regex": ".*",
-    "min_phantom_version": "4.9.39220",
+    "min_phantom_version": "5.0.0",
     "fips_compliant": true,
     "latest_tested_versions": [
         "iSight Partners (FireEye) Cloud, 2021 on 03/09/2021"
@@ -431,7 +431,7 @@
                 "url": {
                     "data_type": "string",
                     "order": 0,
-                    "description": "url to hunt",
+                    "description": "URL to hunt",
                     "contains": [
                         "url"
                     ],
