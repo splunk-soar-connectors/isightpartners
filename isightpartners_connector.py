@@ -15,28 +15,27 @@
 #
 #
 # Phantom imports
+import email
+import hashlib
+import hmac
+import os
+import re
+import shutil
+import sys
+import tempfile
+import time
+from datetime import datetime, timedelta
+from operator import itemgetter
+
 import phantom.app as phantom
-from phantom.base_connector import BaseConnector
+import phantom.rules as ph_rules
+import requests
+from bs4 import BeautifulSoup
 from phantom.action_result import ActionResult
+from phantom.base_connector import BaseConnector
 
 # THIS Connector imports
 from isightpartners_consts import *
-
-import sys
-import requests
-import hashlib
-import email
-import hmac
-import re
-import time
-from datetime import datetime
-from datetime import timedelta
-from operator import itemgetter
-import tempfile
-import os
-import shutil
-import phantom.rules as ph_rules
-from bs4 import BeautifulSoup
 
 ARTIFACT_LABEL = "artifact"
 
@@ -832,14 +831,16 @@ class IsightpartnersConnector(BaseConnector):
         vault_details[phantom.APP_JSON_APP_RUN_ID] = self.get_app_run_id()
 
         file_name = os.path.basename(local_file_path)
-        success, message, vault_id = ph_rules.vault_add(file_location=local_file_path, container=container_id, file_name=file_name, metadata=vault_details)
+        success, message, vault_id = ph_rules.vault_add(
+            file_location=local_file_path, container=container_id, file_name=file_name, metadata=vault_details)
 
         if success:
             vault_details[phantom.APP_JSON_VAULT_ID] = vault_id
             vault_details[phantom.APP_JSON_NAME] = file_name
             action_result.set_status(phantom.APP_SUCCESS, ISIGHTPARTNERS_SUCC_FILE_ADD_TO_VAULT, vault_id=vault_id)
         else:
-            self.debug_print('Error Adding file to vault: success={}, message={}, vault_id={}'.format(success, message, vault_id))
+            self.debug_print(
+                'Error Adding file to vault: success={}, message={}, vault_id={}'.format(success, message, vault_id))
             action_result.set_status(phantom.APP_ERROR, phantom.APP_ERR_FILE_ADD_TO_VAULT)
             action_result.append_to_message('. {}'.format(message))
 
