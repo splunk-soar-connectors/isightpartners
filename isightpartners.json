@@ -19,7 +19,7 @@
     "publisher": "Splunk",
     "logo": "logo_isightpartners.svg",
     "logo_dark": "logo_isightpartners_dark.svg",
-    "license": "Copyright (c) 2014-2021 Splunk Inc.",
+    "license": "Copyright (c) 2014-2022 Splunk Inc.",
     "app_config_render": "default",
     "configuration": {
         "api_url": {
