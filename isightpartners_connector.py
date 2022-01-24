@@ -158,7 +158,8 @@ class IsightpartnersConnector(BaseConnector):
         config = self.get_config()
 
         try:
-            r = requests.get(self._api_url + uri, headers=headers, verify=config[phantom.APP_JSON_VERIFY])
+            r = requests.get(
+                self._api_url + uri, headers=headers, verify=config[phantom.APP_JSON_VERIFY], timeout=DEFAULT_TIMEOUT)
         except Exception as e:
             return (action_result.set_status(phantom.APP_ERROR, ISIGHTPARTNERS_ERR_SERVER_CONNECTION, e), resp_json)
 
@@ -405,7 +406,11 @@ class IsightpartnersConnector(BaseConnector):
         config = self.get_config()
 
         try:
-            r = requests.get(self._api_url + endpoint, headers=headers, verify=config[phantom.APP_JSON_VERIFY])
+            r = requests.get(
+                self._api_url + endpoint,
+                headers=headers,
+                verify=config[phantom.APP_JSON_VERIFY],
+                timeout=DEFAULT_TIMEOUT)
         except Exception as e:
             self.set_status(phantom.APP_ERROR, ISIGHTPARTNERS_ERR_SERVER_CONNECTION, e)
             self.append_to_message(ISIGHTPARTNERS_ERR_CONNECTIVITY_TEST)
@@ -775,7 +780,11 @@ class IsightpartnersConnector(BaseConnector):
         config = self.get_config()
 
         try:
-            r = requests.get(self._api_url + uri, headers=headers, verify=config[phantom.APP_JSON_VERIFY])
+            r = requests.get(
+                self._api_url + uri,
+                headers=headers,
+                verify=config[phantom.APP_JSON_VERIFY],
+                timeout=DEFAULT_TIMEOUT)
         except Exception as e:
             return action_result.set_status(phantom.APP_ERROR, ISIGHTPARTNERS_ERR_SERVER_CONNECTION, e)
 
@@ -885,7 +894,7 @@ if __name__ == '__main__':
 
     if len(sys.argv) < 2:
         print("No test json specified as input")
-        exit(0)
+        sys.exit(0)
 
     with open(sys.argv[1]) as f:
         in_json = f.read()
@@ -897,4 +906,4 @@ if __name__ == '__main__':
         ret_val = connector._handle_action(json.dumps(in_json), None)
         print(ret_val)
 
-    exit(0)
+    sys.exit(0)
