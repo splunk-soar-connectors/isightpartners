@@ -13,8 +13,8 @@
 # either express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 ISIGHTPARTNERS_JSON_API_URL = "api_url"
-ISIGHTPARTNERS_JSON_API_KEY = "api_key"
-ISIGHTPARTNERS_JSON_SECRET = "secret"
+ISIGHTPARTNERS_JSON_API_KEY = "api_key"  # pragma: allowlist secret
+ISIGHTPARTNERS_JSON_SECRET = "secret"  # pragma: allowlist secret
 
 ISIGHTPARTNERS_JSON_HASH = "hash"
 ISIGHTPARTNERS_JSON_NUM_RESULTS = "number_of_results"
@@ -64,3 +64,5 @@ ISIGHTPARTNER_DEFAULT_CONTAINER_COUNT = 1000
 ISIGHTPARTNER_DEFAULT_ARTIFACT_COUNT = 1000
 ISIGHTPARTNER_REPORT_FILE_TYPE = "isightpartners report file"
 MAX_COUNT_VALUE = 4294967295
+
+DEFAULT_TIMEOUT = 30  # seconds
