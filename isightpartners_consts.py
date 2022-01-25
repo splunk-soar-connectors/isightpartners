@@ -1,17 +1,20 @@
-# --
 # File: isightpartners_consts.py
 #
-# Copyright (c) 2014-2021 Splunk Inc.
+# Copyright (c) 2014-2022 Splunk Inc.
 #
-# SPLUNK CONFIDENTIAL - Use or disclosure of this material in whole or in part
-# without a valid written license from Splunk Inc. is PROHIBITED.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-# --
-
-
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed under
+# the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+# either express or implied. See the License for the specific language governing permissions
+# and limitations under the License.
 ISIGHTPARTNERS_JSON_API_URL = "api_url"
-ISIGHTPARTNERS_JSON_API_KEY = "api_key"
-ISIGHTPARTNERS_JSON_SECRET = "secret"
+ISIGHTPARTNERS_JSON_API_KEY = "api_key"  # pragma: allowlist secret
+ISIGHTPARTNERS_JSON_SECRET = "secret"  # pragma: allowlist secret
 
 ISIGHTPARTNERS_JSON_HASH = "hash"
 ISIGHTPARTNERS_JSON_NUM_RESULTS = "number_of_results"
@@ -61,3 +64,5 @@ ISIGHTPARTNER_DEFAULT_CONTAINER_COUNT = 1000
 ISIGHTPARTNER_DEFAULT_ARTIFACT_COUNT = 1000
 ISIGHTPARTNER_REPORT_FILE_TYPE = "isightpartners report file"
 MAX_COUNT_VALUE = 4294967295
+
+DEFAULT_TIMEOUT = 30  # seconds

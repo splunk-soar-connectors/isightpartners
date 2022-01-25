@@ -1,36 +1,41 @@
-# --
 # File: isightpartners_connector.py
 #
-# Copyright (c) 2014-2021 Splunk Inc.
+# Copyright (c) 2014-2022 Splunk Inc.
 #
-# SPLUNK CONFIDENTIAL - Use or disclosure of this material in whole or in part
-# without a valid written license from Splunk Inc. is PROHIBITED.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-# --
-
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed under
+# the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+# either express or implied. See the License for the specific language governing permissions
+# and limitations under the License.
+#
+#
 # Phantom imports
+import email
+import hashlib
+import hmac
+import os
+import re
+import shutil
+import sys
+import tempfile
+import time
+from datetime import datetime, timedelta
+from operator import itemgetter
+
 import phantom.app as phantom
-from phantom.base_connector import BaseConnector
+import phantom.rules as ph_rules
+import requests
+from bs4 import BeautifulSoup
 from phantom.action_result import ActionResult
+from phantom.base_connector import BaseConnector
 
 # THIS Connector imports
 from isightpartners_consts import *
-
-import sys
-import requests
-import hashlib
-import email
-import hmac
-import re
-import time
-from datetime import datetime
-from datetime import timedelta
-from operator import itemgetter
-import tempfile
-import os
-import shutil
-import phantom.rules as ph_rules
-from bs4 import BeautifulSoup
 
 ARTIFACT_LABEL = "artifact"
 
@@ -153,7 +158,8 @@ class IsightpartnersConnector(BaseConnector):
         config = self.get_config()
 
         try:
-            r = requests.get(self._api_url + uri, headers=headers, verify=config[phantom.APP_JSON_VERIFY])
+            r = requests.get(
+                self._api_url + uri, headers=headers, verify=config[phantom.APP_JSON_VERIFY], timeout=DEFAULT_TIMEOUT)
         except Exception as e:
             return (action_result.set_status(phantom.APP_ERROR, ISIGHTPARTNERS_ERR_SERVER_CONNECTION, e), resp_json)
 
@@ -400,7 +406,11 @@ class IsightpartnersConnector(BaseConnector):
         config = self.get_config()
 
         try:
-            r = requests.get(self._api_url + endpoint, headers=headers, verify=config[phantom.APP_JSON_VERIFY])
+            r = requests.get(
+                self._api_url + endpoint,
+                headers=headers,
+                verify=config[phantom.APP_JSON_VERIFY],
+                timeout=DEFAULT_TIMEOUT)
         except Exception as e:
             self.set_status(phantom.APP_ERROR, ISIGHTPARTNERS_ERR_SERVER_CONNECTION, e)
             self.append_to_message(ISIGHTPARTNERS_ERR_CONNECTIVITY_TEST)
@@ -770,7 +780,11 @@ class IsightpartnersConnector(BaseConnector):
         config = self.get_config()
 
         try:
-            r = requests.get(self._api_url + uri, headers=headers, verify=config[phantom.APP_JSON_VERIFY])
+            r = requests.get(
+                self._api_url + uri,
+                headers=headers,
+                verify=config[phantom.APP_JSON_VERIFY],
+                timeout=DEFAULT_TIMEOUT)
         except Exception as e:
             return action_result.set_status(phantom.APP_ERROR, ISIGHTPARTNERS_ERR_SERVER_CONNECTION, e)
 
@@ -826,14 +840,16 @@ class IsightpartnersConnector(BaseConnector):
         vault_details[phantom.APP_JSON_APP_RUN_ID] = self.get_app_run_id()
 
         file_name = os.path.basename(local_file_path)
-        success, message, vault_id = ph_rules.vault_add(file_location=local_file_path, container=container_id, file_name=file_name, metadata=vault_details)
+        success, message, vault_id = ph_rules.vault_add(
+            file_location=local_file_path, container=container_id, file_name=file_name, metadata=vault_details)
 
         if success:
             vault_details[phantom.APP_JSON_VAULT_ID] = vault_id
             vault_details[phantom.APP_JSON_NAME] = file_name
             action_result.set_status(phantom.APP_SUCCESS, ISIGHTPARTNERS_SUCC_FILE_ADD_TO_VAULT, vault_id=vault_id)
         else:
-            self.debug_print('Error Adding file to vault: success={}, message={}, vault_id={}'.format(success, message, vault_id))
+            self.debug_print(
+                'Error Adding file to vault: success={}, message={}, vault_id={}'.format(success, message, vault_id))
             action_result.set_status(phantom.APP_ERROR, phantom.APP_ERR_FILE_ADD_TO_VAULT)
             action_result.append_to_message('. {}'.format(message))
 
@@ -878,7 +894,7 @@ if __name__ == '__main__':
 
     if len(sys.argv) < 2:
         print("No test json specified as input")
-        exit(0)
+        sys.exit(0)
 
     with open(sys.argv[1]) as f:
         in_json = f.read()
@@ -890,4 +906,4 @@ if __name__ == '__main__':
         ret_val = connector._handle_action(json.dumps(in_json), None)
         print(ret_val)
 
-    exit(0)
+    sys.exit(0)

@@ -5,12 +5,13 @@
     "description": "This app integrates with iSight Partners' ThreatScape product to pull campaign reports and provide hunting capabilities",
     "type": "threat intel",
     "main_module": "isightpartners_connector.py",
-    "app_version": "2.0.4",
-    "utctime_updated": "2021-04-01T16:54:02.000000Z",
+    "app_version": "2.0.8",
+    "utctime_updated": "2022-01-25T00:16:36.000000Z",
     "product_vendor": "iSight Partners",
     "product_name": "ThreatScape",
     "product_version_regex": ".*",
-    "min_phantom_version": "4.9.39220",
+    "min_phantom_version": "5.0.0",
+    "fips_compliant": true,
     "latest_tested_versions": [
         "iSight Partners (FireEye) Cloud, 2021 on 03/09/2021"
     ],
@@ -18,7 +19,7 @@
     "publisher": "Splunk",
     "logo": "logo_isightpartners.svg",
     "logo_dark": "logo_isightpartners_dark.svg",
-    "license": "Copyright (c) 2014-2021 Splunk Inc.",
+    "license": "Copyright (c) 2014-2022 Splunk Inc.",
     "app_config_render": "default",
     "configuration": {
         "api_url": {
@@ -430,7 +431,7 @@
                 "url": {
                     "data_type": "string",
                     "order": 0,
-                    "description": "url to hunt",
+                    "description": "URL to hunt",
                     "contains": [
                         "url"
                     ],
@@ -816,5 +817,41 @@
             "output": [],
             "versions": "EQ(*)"
         }
-    ]
+    ],
+    "pip_dependencies": {
+        "wheel": [
+            {
+                "module": "beautifulsoup4",
+                "input_file": "wheels/beautifulsoup4-4.9.1-py3-none-any.whl"
+            },
+            {
+                "module": "certifi",
+                "input_file": "wheels/certifi-2021.10.8-py2.py3-none-any.whl"
+            },
+            {
+                "module": "chardet",
+                "input_file": "wheels/chardet-3.0.4-py2.py3-none-any.whl"
+            },
+            {
+                "module": "idna",
+                "input_file": "wheels/idna-2.10-py2.py3-none-any.whl"
+            },
+            {
+                "module": "requests",
+                "input_file": "wheels/requests-2.25.0-py2.py3-none-any.whl"
+            },
+            {
+                "module": "simplejson",
+                "input_file": "wheels/simplejson-3.17.2-cp36-cp36m-manylinux2010_x86_64.manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+            },
+            {
+                "module": "soupsieve",
+                "input_file": "wheels/soupsieve-2.3.1-py3-none-any.whl"
+            },
+            {
+                "module": "urllib3",
+                "input_file": "wheels/urllib3-1.26.7-py2.py3-none-any.whl"
+            }
+        ]
+    }
 }
