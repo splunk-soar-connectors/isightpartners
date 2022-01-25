@@ -2,16 +2,16 @@
 # iSight Partners
 
 Publisher: Splunk  
-Connector Version: 2\.0\.4  
+Connector Version: 2\.0\.8  
 Product Vendor: iSight Partners  
 Product Name: ThreatScape  
 Product Version Supported (regex): "\.\*"  
-Minimum Product Version: 4\.9\.39220  
+Minimum Product Version: 5\.0\.0  
 
 This app integrates with iSight Partners' ThreatScape product to pull campaign reports and provide hunting capabilities
 
-[comment]: # "File: readme.md"
-[comment]: # "Copyright (c) 2014-2021 Splunk Inc."
+[comment]: # "File: README.md"
+[comment]: # "Copyright (c) 2014-2022 Splunk Inc."
 [comment]: # ""
 [comment]: # "Licensed under the Apache License, Version 2.0 (the 'License');"
 [comment]: # "you may not use this file except in compliance with the License."
@@ -164,7 +164,7 @@ Read only: **True**
 #### Action Parameters
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**url** |  required  | url to hunt | string |  `url` 
+**url** |  required  | URL to hunt | string |  `url` 
 
 #### Action Output
 DATA PATH | TYPE | CONTAINS
