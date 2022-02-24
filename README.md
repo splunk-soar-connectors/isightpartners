@@ -1,12 +1,12 @@
 [comment]: # "Auto-generated SOAR connector documentation"
 # iSight Partners
 
-Publisher: Splunk  
-Connector Version: 2\.0\.8  
+Publisher: Splunk Community  
+Connector Version: 2\.0\.9  
 Product Vendor: iSight Partners  
 Product Name: ThreatScape  
 Product Version Supported (regex): "\.\*"  
-Minimum Product Version: 5\.0\.0  
+Minimum Product Version: 5\.1\.0  
 
 This app integrates with iSight Partners' ThreatScape product to pull campaign reports and provide hunting capabilities
 
