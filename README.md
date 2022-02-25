@@ -2,7 +2,7 @@
 # iSight Partners
 
 Publisher: Splunk Community  
-Connector Version: 2\.0\.9  
+Connector Version: 3\.0\.0  
 Product Vendor: iSight Partners  
 Product Name: ThreatScape  
 Product Version Supported (regex): "\.\*"  
