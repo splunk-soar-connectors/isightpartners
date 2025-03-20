@@ -1,6 +1,6 @@
 # File: isightpartners_connector.py
 #
-# Copyright (c) 2014-2022 Splunk Inc.
+# Copyright (c) 2014-2025 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -37,24 +37,24 @@ from phantom.base_connector import BaseConnector
 # THIS Connector imports
 from isightpartners_consts import *
 
+
 ARTIFACT_LABEL = "artifact"
 
 # dictionary that contains the comman keys in the container
 _container_common = {
     "description": "Container added by Phantom iSightPartners App",
-    "run_automation": False  # Don't run any playbooks, when this artifact is added
+    "run_automation": False,  # Don't run any playbooks, when this artifact is added
 }
 
 _artifact_common = {
     "label": ARTIFACT_LABEL,
     "type": "network",
     "description": "Artifact added by Phantom iSightPartners App",
-    "run_automation": False  # Don't run any playbooks, when this artifact is added
+    "run_automation": False,  # Don't run any playbooks, when this artifact is added
 }
 
 
 class IsightpartnersConnector(BaseConnector):
-
     # The actions supported by this connector
     ACTION_ID_HUNT_FILE = "hunt_file"
     ACTION_ID_HUNT_DOMAIN = "hunt_domain"
@@ -64,9 +64,8 @@ class IsightpartnersConnector(BaseConnector):
     ACTION_ID_GET_REPORT = "get_report"
 
     def __init__(self):
-
         # Call the BaseConnectors init first
-        super(IsightpartnersConnector, self).__init__()
+        super().__init__()
 
         self._api_url = None
         self._api_key = None
@@ -74,13 +73,12 @@ class IsightpartnersConnector(BaseConnector):
         self._python_version = None
 
     def initialize(self):
-
         config = self.get_config()
 
         # Base URL
         self._api_url = config[ISIGHTPARTNERS_JSON_API_URL]
 
-        if self._api_url.endswith('/'):
+        if self._api_url.endswith("/"):
             self._api_url = self._api_url[:-1]
 
         try:
@@ -94,7 +92,6 @@ class IsightpartnersConnector(BaseConnector):
         return phantom.APP_SUCCESS
 
     def _set_cef_key(self, src_dict, src_key, dst_dict, dst_key):
-
         src_value = phantom.get_value(src_dict, src_key)
 
         # Ignore if None
@@ -106,48 +103,46 @@ class IsightpartnersConnector(BaseConnector):
         return True
 
     def _get_uri(self, endpoint, query_params=None):
-
         if not query_params:
             return endpoint
 
-        return endpoint + '?' + '&'.join(['{0}={1}'.format(k, v) for k, v in query_params.items()])
+        return endpoint + "?" + "&".join([f"{k}={v}" for k, v in query_params.items()])
 
-    def _get_headers(self, uri, accept_header='application/json'):
-
+    def _get_headers(self, uri, accept_header="application/json"):
         time_stamp = email.utils.formatdate()
-        new_data = uri + '2.0' + accept_header + time_stamp
+        new_data = uri + "2.0" + accept_header + time_stamp
 
         # hmac does not accept unicode
         if self._python_version < 3:
             hashed = hmac.new(str(self._secret), str(new_data), hashlib.sha256)
         else:
-            hashed = hmac.new(self._secret.encode('utf-8'), new_data.encode('utf-8'), hashlib.sha256)
+            hashed = hmac.new(self._secret.encode("utf-8"), new_data.encode("utf-8"), hashlib.sha256)
         headers = {
-                'Accept': accept_header,
-                'Accept-Version': '2.0',
-                'X-Auth': self._api_key,
-                'X-Auth-Hash': hashed.hexdigest(),
-                'X-App-Name': 'phantom-isightpartners-app',
-                'Date': time_stamp}
+            "Accept": accept_header,
+            "Accept-Version": "2.0",
+            "X-Auth": self._api_key,
+            "X-Auth-Hash": hashed.hexdigest(),
+            "X-App-Name": "phantom-isightpartners-app",
+            "Date": time_stamp,
+        }
 
         return headers
 
     def _get_hash_type(self, hash_val):
-
         hash_types = [
-                {"regex": "^[0-9a-fA-F]{32}$", "hash_type": "md5"},
-                {"regex": "^[0-9a-fA-F]{40}$", "hash_type": "sha1"},
-                {"regex": "^[0-9a-fA-F]{64}$", "hash_type": "sha256"}]
+            {"regex": "^[0-9a-fA-F]{32}$", "hash_type": "md5"},
+            {"regex": "^[0-9a-fA-F]{40}$", "hash_type": "sha1"},
+            {"regex": "^[0-9a-fA-F]{64}$", "hash_type": "sha256"},
+        ]
 
-        match = [x for x in hash_types if re.match(x['regex'], hash_val)]
+        match = [x for x in hash_types if re.match(x["regex"], hash_val)]
 
         if match:
-            return match[0]['hash_type']
+            return match[0]["hash_type"]
 
         return None
 
     def _make_rest_call(self, endpoint, query_params, action_result):
-
         # Create the uri
         uri = self._get_uri(endpoint, query_params)
 
@@ -158,8 +153,7 @@ class IsightpartnersConnector(BaseConnector):
         config = self.get_config()
 
         try:
-            r = requests.get(
-                self._api_url + uri, headers=headers, verify=config[phantom.APP_JSON_VERIFY], timeout=DEFAULT_TIMEOUT)
+            r = requests.get(self._api_url + uri, headers=headers, verify=config[phantom.APP_JSON_VERIFY], timeout=DEFAULT_TIMEOUT)
         except Exception as e:
             return (action_result.set_status(phantom.APP_ERROR, ISIGHTPARTNERS_ERR_SERVER_CONNECTION, e), resp_json)
 
@@ -178,17 +172,17 @@ class IsightpartnersConnector(BaseConnector):
 
         # Look for errors
         if r.status_code != requests.codes.ok:  # pylint: disable=maybe-no-member
-
             # init the message dict
             message = {}
 
             # fill it if present
-            if 'message' in resp_json:
-                message = resp_json['message']
+            if "message" in resp_json:
+                message = resp_json["message"]
 
             # create the string from the data that we got
-            msg_string = ISIGHTPARTNERS_ERR_FROM_SERVER.format(error=message.get('error', 'Not specified'),
-                    description=message.get('description', 'Not specified'))
+            msg_string = ISIGHTPARTNERS_ERR_FROM_SERVER.format(
+                error=message.get("error", "Not specified"), description=message.get("description", "Not specified")
+            )
 
             return (action_result.set_status(phantom.APP_ERROR, msg_string), None)
 
@@ -196,13 +190,12 @@ class IsightpartnersConnector(BaseConnector):
         return (phantom.APP_SUCCESS, resp_json)
 
     def _parse_response_message_dict(self, message, summary_key, action_result):
-
         if not message:
             return
 
         # Convert the ThreatScape list to comma separated values
-        message['threatscape_info'] = ','.join(message.get('ThreatScape', []))
-        published_date = message['publishDate']
+        message["threatscape_info"] = ",".join(message.get("ThreatScape", []))
+        published_date = message["publishDate"]
         if published_date:
             message[ISIGHTPARTNERS_JSON_PUBLISHED_DATE] = time.strftime("%b %d %Y, %H:%M:%S %Z", time.localtime(published_date))
         action_result.add_data(message)
@@ -210,7 +203,6 @@ class IsightpartnersConnector(BaseConnector):
         return
 
     def _parse_response_message_list(self, messages, summary_key, action_result):
-
         if not messages:
             return
 
@@ -220,11 +212,10 @@ class IsightpartnersConnector(BaseConnector):
             self._parse_response_message_dict(message, summary_key, action_result)
 
     def _parse_response_message(self, resp_json, summary_key, action_result):
-
         if resp_json is None:
             return
 
-        messages = resp_json.get('message')
+        messages = resp_json.get("message")
 
         if messages is None:
             return
@@ -236,20 +227,19 @@ class IsightpartnersConnector(BaseConnector):
             return self._parse_response_message_list(messages, summary_key, action_result)
 
     def _hunt_domain(self, param):
-
         action_result = self.add_action_result(ActionResult(param))
 
         # Progress
         self.save_progress(ISIGHTPARTNERS_USING_API_URL, api_url=self._api_url)
 
         url = self._api_url
-        host = url[url.find('//') + 2:]
+        host = url[url.find("//") + 2 :]
 
         # Connectivity
         self.save_progress(phantom.APP_PROG_CONNECTING_TO_ELLIPSES, host)
 
-        endpoint = '/search/basic'
-        query_params = {'domain': param[ISIGHTPARTNERS_JSON_DOMAIN]}
+        endpoint = "/search/basic"
+        query_params = {"domain": param[ISIGHTPARTNERS_JSON_DOMAIN]}
 
         ret_val, resp_json = self._make_rest_call(endpoint, query_params, action_result)
 
@@ -261,20 +251,19 @@ class IsightpartnersConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _hunt_url(self, param):
-
         action_result = self.add_action_result(ActionResult(param))
 
         # Progress
         self.save_progress(ISIGHTPARTNERS_USING_API_URL, api_url=self._api_url)
 
         url = self._api_url
-        host = url[url.find('//') + 2:]
+        host = url[url.find("//") + 2 :]
 
         # Connectivity
         self.save_progress(phantom.APP_PROG_CONNECTING_TO_ELLIPSES, host)
 
-        endpoint = '/search/basic'
-        query_params = {'url': param[ISIGHTPARTNERS_JSON_URL]}
+        endpoint = "/search/basic"
+        query_params = {"url": param[ISIGHTPARTNERS_JSON_URL]}
 
         ret_val, resp_json = self._make_rest_call(endpoint, query_params, action_result)
 
@@ -286,10 +275,9 @@ class IsightpartnersConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _get_report_details(self, report_id, action_result):
+        endpoint = f"/report/{report_id}"
 
-        endpoint = '/report/{0}'.format(report_id)
-
-        query_params = {'detail': 'full'}
+        query_params = {"detail": "full"}
 
         ret_val, resp_json = self._make_rest_call(endpoint, query_params, action_result)
 
@@ -297,7 +285,7 @@ class IsightpartnersConnector(BaseConnector):
             return action_result.get_status()
 
         if resp_json:
-            message = resp_json.get('message')
+            message = resp_json.get("message")
 
             if message:
                 action_result.add_data(message)
@@ -305,14 +293,13 @@ class IsightpartnersConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _get_report(self, param):
-
         action_result = self.add_action_result(ActionResult(param))
 
         # Progress
         self.save_progress(ISIGHTPARTNERS_USING_API_URL, api_url=self._api_url)
 
         url = self._api_url
-        host = url[url.find('//') + 2:]
+        host = url[url.find("//") + 2 :]
 
         # Connectivity
         self.save_progress(phantom.APP_PROG_CONNECTING_TO_ELLIPSES, host)
@@ -331,20 +318,19 @@ class IsightpartnersConnector(BaseConnector):
         return ret_val
 
     def _hunt_ip(self, param):
-
         action_result = self.add_action_result(ActionResult(param))
 
         # Progress
         self.save_progress(ISIGHTPARTNERS_USING_API_URL, api_url=self._api_url)
 
         url = self._api_url
-        host = url[url.find('//') + 2:]
+        host = url[url.find("//") + 2 :]
 
         # Connectivity
         self.save_progress(phantom.APP_PROG_CONNECTING_TO_ELLIPSES, host)
 
-        endpoint = '/search/basic'
-        query_params = {'ip': param[ISIGHTPARTNERS_JSON_IP]}
+        endpoint = "/search/basic"
+        query_params = {"ip": param[ISIGHTPARTNERS_JSON_IP]}
 
         ret_val, resp_json = self._make_rest_call(endpoint, query_params, action_result)
 
@@ -356,14 +342,13 @@ class IsightpartnersConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _hunt_file(self, param):
-
         action_result = self.add_action_result(ActionResult(param))
 
         # Progress
         self.save_progress(ISIGHTPARTNERS_USING_API_URL, api_url=self._api_url)
 
         url = self._api_url
-        host = url[url.find('//') + 2:]
+        host = url[url.find("//") + 2 :]
 
         # Connectivity
         self.save_progress(phantom.APP_PROG_CONNECTING_TO_ELLIPSES, host)
@@ -375,7 +360,7 @@ class IsightpartnersConnector(BaseConnector):
         if hash_type is None:
             return action_result.set_status(phantom.APP_ERROR, ISIGHTPARTNERS_ERR_INVALID_HASH)
 
-        endpoint = '/search/basic'
+        endpoint = "/search/basic"
         query_params = {hash_type: hash_val}
 
         ret_val, resp_json = self._make_rest_call(endpoint, query_params, action_result)
@@ -388,17 +373,16 @@ class IsightpartnersConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _test_connectivity(self, param):
-
         # Progress
         self.save_progress(ISIGHTPARTNERS_USING_API_URL, api_url=self._api_url)
 
         url = self._api_url
-        host = url[url.find('//') + 2:]
+        host = url[url.find("//") + 2 :]
 
         # Connectivity
         self.save_progress(phantom.APP_PROG_CONNECTING_TO_ELLIPSES, host)
 
-        endpoint = '/test'
+        endpoint = "/test"
 
         # Create the headers
         headers = self._get_headers(endpoint)
@@ -406,11 +390,7 @@ class IsightpartnersConnector(BaseConnector):
         config = self.get_config()
 
         try:
-            r = requests.get(
-                self._api_url + endpoint,
-                headers=headers,
-                verify=config[phantom.APP_JSON_VERIFY],
-                timeout=DEFAULT_TIMEOUT)
+            r = requests.get(self._api_url + endpoint, headers=headers, verify=config[phantom.APP_JSON_VERIFY], timeout=DEFAULT_TIMEOUT)
         except Exception as e:
             self.set_status(phantom.APP_ERROR, ISIGHTPARTNERS_ERR_SERVER_CONNECTION, e)
             self.append_to_message(ISIGHTPARTNERS_ERR_CONNECTIVITY_TEST)
@@ -424,22 +404,24 @@ class IsightpartnersConnector(BaseConnector):
             return self.get_status()
 
         # Check if the key is present in the response that we got
-        if 'success' not in response:
+        if "success" not in response:
             self.set_status(phantom.APP_ERROR, ISIGHTPARTNERS_ERR_REPLY_FORMAT)
             self.append_to_message(ISIGHTPARTNERS_ERR_CONNECTIVITY_TEST)
             return self.get_status()
 
         # key is present
-        if not response['success']:
-
+        if not response["success"]:
             # Failed
             self.set_status(phantom.APP_ERROR)
 
             # Try to add any more info if possible
-            if 'message' in response:
-                message = response['message']
-                self.append_to_message(ISIGHTPARTNERS_ERR_FROM_SERVER.format(
-                        error=message.get('error', 'Not specified'), description=message.get('description', 'Not specified')))
+            if "message" in response:
+                message = response["message"]
+                self.append_to_message(
+                    ISIGHTPARTNERS_ERR_FROM_SERVER.format(
+                        error=message.get("error", "Not specified"), description=message.get("description", "Not specified")
+                    )
+                )
 
             # set the last message
             self.append_to_message(ISIGHTPARTNERS_MSG_SET_CORRECT_TIME)
@@ -449,7 +431,6 @@ class IsightpartnersConnector(BaseConnector):
         return self.set_status_save_progress(phantom.APP_SUCCESS, ISIGHTPARTNERS_SUCC_CONNECTIVITY_TEST)
 
     def _parse_file_node(self, file_node, artifact_id, container_id):
-
         if not file_node:
             return phantom.APP_ERROR
 
@@ -457,61 +438,59 @@ class IsightpartnersConnector(BaseConnector):
         cef = dict()
 
         # Each one of these will overwrite the other, if present
-        self._set_cef_key(file_node, 'sha1', cef, 'fileHash')
-        self._set_cef_key(file_node, 'sha256', cef, 'fileHash')
-        self._set_cef_key(file_node, 'md5', cef, 'fileHash')
+        self._set_cef_key(file_node, "sha1", cef, "fileHash")
+        self._set_cef_key(file_node, "sha256", cef, "fileHash")
+        self._set_cef_key(file_node, "md5", cef, "fileHash")
 
-        self._set_cef_key(file_node, 'fileName', cef, 'fileName')
-        self._set_cef_key(file_node, 'fileSize', cef, 'fileSize')
+        self._set_cef_key(file_node, "fileName", cef, "fileName")
+        self._set_cef_key(file_node, "fileSize", cef, "fileSize")
 
         if not cef:
             return None
 
         artifact.update(_artifact_common)
-        artifact['source_data_identifier'] = artifact_id
-        artifact['name'] = "File Object"
-        artifact['cef'] = cef
+        artifact["source_data_identifier"] = artifact_id
+        artifact["name"] = "File Object"
+        artifact["cef"] = cef
 
-        artifact['container_id'] = container_id
+        artifact["container_id"] = container_id
 
         return artifact
 
     def _parse_network_node(self, network_node, artifact_id, container_id):
-
         if not network_node:
             return phantom.APP_ERROR
 
         artifact = {}
         cef = dict()
 
-        self._set_cef_key(network_node, 'url', cef, 'requestURL')
-        self._set_cef_key(network_node, 'ip', cef, 'destinationAddress')
-        self._set_cef_key(network_node, 'domain', cef, 'destinationDnsDomain')
+        self._set_cef_key(network_node, "url", cef, "requestURL")
+        self._set_cef_key(network_node, "ip", cef, "destinationAddress")
+        self._set_cef_key(network_node, "domain", cef, "destinationDnsDomain")
 
-        if 'asn' in network_node:
-            cef['cs1Label'] = "asn"
-            cef['cs1'] = network_node['asn']
+        if "asn" in network_node:
+            cef["cs1Label"] = "asn"
+            cef["cs1"] = network_node["asn"]
 
         if not cef:
             return None
 
         artifact.update(_artifact_common)
-        artifact['source_data_identifier'] = artifact_id
-        artifact['name'] = "Network Object"
-        artifact['cef'] = cef
+        artifact["source_data_identifier"] = artifact_id
+        artifact["name"] = "Network Object"
+        artifact["cef"] = cef
 
-        artifact['container_id'] = container_id
+        artifact["container_id"] = container_id
 
         return artifact
 
     def _set_artifact_label(self, report_details):
-
         products = []
         artifact_labels = []
 
         # get the list of products
         try:
-            products = report_details['ThreatScape']['product']
+            products = report_details["ThreatScape"]["product"]
         except:
             return False
 
@@ -520,8 +499,7 @@ class IsightpartnersConnector(BaseConnector):
 
         # stript and remove the prefix for each product
         for product in products:
-
-            artifact_label = product.lstrip('ThreatScape').strip()
+            artifact_label = product.lstrip("ThreatScape").strip()
 
             if not artifact_label:
                 continue
@@ -532,24 +510,23 @@ class IsightpartnersConnector(BaseConnector):
             return False
 
         # join them
-        _artifact_common['label'] = ','.join(artifact_labels)
+        _artifact_common["label"] = ",".join(artifact_labels)
 
         return True
 
     def _parse_report(self, report_details, report_id, artifact_count):
-
         container_id = None
 
         # first save the container
         container = {}
         container.update(_container_common)
-        container['source_data_identifier'] = report_id
-        container['description'] += ". Generated via report: {0}".format(report_id)
-        container['name'] = report_details['title']
-        container['data'] = report_details
+        container["source_data_identifier"] = report_id
+        container["description"] += f". Generated via report: {report_id}"
+        container["name"] = report_details["title"]
+        container["data"] = report_details
         ret_val, response, container_id = self.save_container(container)
 
-        self.debug_print("save_container returns, value: {0}, reason: {1}, id: {2}".format(ret_val, response, container_id))
+        self.debug_print(f"save_container returns, value: {ret_val}, reason: {response}, id: {container_id}")
 
         if not container_id:
             return (phantom.APP_ERROR, container_id)
@@ -562,7 +539,7 @@ class IsightpartnersConnector(BaseConnector):
             ret_val = self._download_report_pdf(report_id, container_id, action_result)
 
         # Now parse the various artifact based nodes
-        tag_section = report_details.get('tagSection')
+        tag_section = report_details.get("tagSection")
         if tag_section is None:
             self.save_progress(ISIGHTPARTNERS_MSG_NO_OBSERVABLES_FOUND)
             return (phantom.APP_SUCCESS, container_id)
@@ -576,9 +553,9 @@ class IsightpartnersConnector(BaseConnector):
         artifacts = []
 
         # get the files list
-        files = tag_section.get('files')
+        files = tag_section.get("files")
         if files is not None:
-            file_list = files.get('file')
+            file_list = files.get("file")
             if file_list is not None:
                 for file in file_list:
                     if artifact_index >= artifact_count:
@@ -589,9 +566,9 @@ class IsightpartnersConnector(BaseConnector):
                         artifact_index += 1
 
         # get the networks node
-        networks = tag_section.get('networks')
+        networks = tag_section.get("networks")
         if networks is not None:
-            network_list = networks.get('network')
+            network_list = networks.get("network")
             if network_list is not None:
                 for network in network_list:
                     if artifact_index >= artifact_count:
@@ -605,32 +582,30 @@ class IsightpartnersConnector(BaseConnector):
             self.save_progress(ISIGHTPARTNERS_MSG_NO_OBSERVABLES_FOUND)
             return (phantom.APP_SUCCESS, container_id)
 
-        self.save_progress("Created {0} artifacts".format(len(artifacts)))
+        self.save_progress(f"Created {len(artifacts)} artifacts")
 
         # The artifacts list will only contain the artifacts that should be added
         # Add all the artifacts except the last one
         for artifact in artifacts[:-1]:
             ret_val, status_string, artifact_id = self.save_artifact(artifact)
-            self.debug_print("save_artifact returns, value: {0}, reason: {1}, id: {2}".format(ret_val, status_string, artifact_id))
+            self.debug_print(f"save_artifact returns, value: {ret_val}, reason: {status_string}, id: {artifact_id}")
 
         # Get the last one, to be handled separately, the run_automation is to be set to true
         artifact = artifacts[-1]
-        artifact['run_automation'] = True
+        artifact["run_automation"] = True
         ret_val, status_string, artifact_id = self.save_artifact(artifact)
-        self.debug_print("save_artifact returns, value: {0}, reason: {1}, id: {2}".format(ret_val, status_string, artifact_id))
+        self.debug_print(f"save_artifact returns, value: {ret_val}, reason: {status_string}, id: {artifact_id}")
 
         return (phantom.APP_SUCCESS, container_id)
 
     def _get_str_from_epoch(self, epoch_secs):
-
         if not epoch_secs:
             return "Unavailable"
 
         # 2015-07-21T00:27:59Z
-        return datetime.fromtimestamp(int(epoch_secs)).strftime('%Y-%m-%dT%H:%M:%S %Z')
+        return datetime.fromtimestamp(int(epoch_secs)).strftime("%Y-%m-%dT%H:%M:%S %Z")
 
     def _on_poll(self, param):
-
         # Get the param values
         start_time = param.get(phantom.APP_JSON_START_TIME)
         end_time = param.get(phantom.APP_JSON_END_TIME)
@@ -651,10 +626,10 @@ class IsightpartnersConnector(BaseConnector):
         if end_time < start_time:
             return self.set_status(phantom.APP_ERROR, ISIGHTPARTNERS_ERR_END_TIME_LT_START_TIME)
 
-        self.debug_print("start_time: {0} end_time: {1}".format(start_time, end_time))
+        self.debug_print(f"start_time: {start_time} end_time: {end_time}")
         start_time = start_time // 1000
         end_time = end_time // 1000
-        self.debug_print("start_time in secs: {0} end_time in secs: {1}".format(start_time, end_time))
+        self.debug_print(f"start_time in secs: {start_time} end_time in secs: {end_time}")
 
         if (end_time - start_time) > ISIGHTPARTNERS_MAX_DAYS_SECONDS:
             return self.set_status(phantom.APP_ERROR, ISIGHTPARTNERS_ERR_RANGE_MORE_THAN_MAX.format(ISIGHTPARTNERS_MAX_DAYS_RANGE))
@@ -663,16 +638,17 @@ class IsightpartnersConnector(BaseConnector):
         self.save_progress(ISIGHTPARTNERS_USING_API_URL, api_url=self._api_url)
 
         url = self._api_url
-        host = url[url.find('//') + 2:]
+        host = url[url.find("//") + 2 :]
 
         # Connectivity
         self.save_progress(phantom.APP_PROG_CONNECTING_TO_ELLIPSES, host)
 
-        self.save_progress(ISIGHTPARTNERS_USING_TIMERANGE, start_time=self._get_str_from_epoch(start_time),
-                end_time=self._get_str_from_epoch(end_time))
+        self.save_progress(
+            ISIGHTPARTNERS_USING_TIMERANGE, start_time=self._get_str_from_epoch(start_time), end_time=self._get_str_from_epoch(end_time)
+        )
 
-        endpoint = '/report/index'
-        query_params = {'startDate': start_time, 'endDate': end_time}
+        endpoint = "/report/index"
+        query_params = {"startDate": start_time, "endDate": end_time}
 
         report_list_action_result = ActionResult()
 
@@ -701,13 +677,13 @@ class IsightpartnersConnector(BaseConnector):
             if number_of_reports > container_count:
                 self.save_progress(ISIGHTPARTNERS_MSG_GETTING_MOST_N_RECENT.format(number_of_reports=container_count))
                 # need to sort in order to get the latest
-                reports = sorted(reports, key=itemgetter('publishDate'), reverse=True)
+                reports = sorted(reports, key=itemgetter("publishDate"), reverse=True)
 
                 # ignore the rest of the containers
                 reports = reports[:container_count]
         else:
             # Need to get a specific report
-            reports = [x for x in reports if x['reportId'] == container_id]
+            reports = [x for x in reports if x["reportId"] == container_id]
             if len(reports) == 0:
                 self.save_progress(ISIGHTPARTNERS_MSG_NO_RESULTS_CONTAINER_ID)
                 return self.set_status(phantom.APP_SUCCESS)
@@ -716,19 +692,19 @@ class IsightpartnersConnector(BaseConnector):
         # Loop through the list of reports
         for report in reports:
             report_action_result = ActionResult(report)
-            report_id = report.get('reportId')
+            report_id = report.get("reportId")
             if not report_id:
                 message = "ID not found in report details."
                 self.save_progress(message)
                 continue
 
-            self.save_progress(ISIGHTPARTNERS_MSG_GETTING_REPORT.format(report_id=report_id,
-                published_on=self._get_str_from_epoch(report.get('publishDate'))))
+            self.save_progress(
+                ISIGHTPARTNERS_MSG_GETTING_REPORT.format(report_id=report_id, published_on=self._get_str_from_epoch(report.get("publishDate")))
+            )
 
             ret_val = self._get_report_details(report_id, report_action_result)
             if phantom.is_fail(ret_val):
-                self.save_progress(ISIGHTPARTNERS_ERR_GETTING_REPORT.format(report_id=report_id,
-                    error_str=report_action_result.get_message()))
+                self.save_progress(ISIGHTPARTNERS_ERR_GETTING_REPORT.format(report_id=report_id, error_str=report_action_result.get_message()))
                 continue
 
             report_data = report_action_result.get_data()
@@ -739,11 +715,11 @@ class IsightpartnersConnector(BaseConnector):
                 continue
 
             if len(report_data) != 1:
-                self.debug_print("Len of report data is not 1, it's {0}".format(len(report_data)))
+                self.debug_print(f"Len of report data is not 1, it's {len(report_data)}")
                 self.save_progress(ISIGHTPARTNERS_ERR_REPORT_FORMAT)
                 continue
 
-            report_details = report_data[0].get('report')
+            report_details = report_data[0].get("report")
             if report_details is None:
                 self.debug_print("report details not found")
                 self.save_progress(ISIGHTPARTNERS_ERR_REPORT_FORMAT)
@@ -755,7 +731,6 @@ class IsightpartnersConnector(BaseConnector):
         return self.set_status(phantom.APP_SUCCESS)
 
     def _normalize_reply(self, reply):
-
         try:
             soup = BeautifulSoup(reply, "html.parser")
             return soup.text
@@ -763,28 +738,23 @@ class IsightpartnersConnector(BaseConnector):
             self.debug_print("Handled exception", e)
             return "Unparsable Reply. Please see the log files for the response text."
 
-        return ''
+        return ""
 
     def _download_report_pdf(self, report_id, container_id, action_result):
-
         self.send_progress(ISIGHTPARTNERS_MSG_DOWNLOADING_REPORT)
 
-        endpoint = '/report/{0}'.format(report_id)
-        query_params = {'detail': 'full', 'format': 'pdf'}
+        endpoint = f"/report/{report_id}"
+        query_params = {"detail": "full", "format": "pdf"}
 
         uri = self._get_uri(endpoint, query_params)
 
         # Create the headers
-        headers = self._get_headers(uri, accept_header='application/pdf')
+        headers = self._get_headers(uri, accept_header="application/pdf")
 
         config = self.get_config()
 
         try:
-            r = requests.get(
-                self._api_url + uri,
-                headers=headers,
-                verify=config[phantom.APP_JSON_VERIFY],
-                timeout=DEFAULT_TIMEOUT)
+            r = requests.get(self._api_url + uri, headers=headers, verify=config[phantom.APP_JSON_VERIFY], timeout=DEFAULT_TIMEOUT)
         except Exception as e:
             return action_result.set_status(phantom.APP_ERROR, ISIGHTPARTNERS_ERR_SERVER_CONNECTION, e)
 
@@ -792,31 +762,31 @@ class IsightpartnersConnector(BaseConnector):
             return action_result.set_status(phantom.APP_SUCCESS, ISIGHTPARTNERS_MSG_NO_RESULTS)
 
         if r.status_code != requests.codes.ok:  # pylint: disable=maybe-no-member
+            content_type = r.headers["content-type"]
 
-            content_type = r.headers['content-type']
-
-            if content_type.find('json') != -1:
+            if content_type.find("json") != -1:
                 try:
                     response = r.json()
                 except:
                     response = {}
 
-                if 'message' in response:
-                    message = response['message']
-                    msg_string = ISIGHTPARTNERS_ERR_FROM_SERVER.format(error=message.get('error', 'Not specified'),
-                            description=message.get('description', 'Not specified'))
+                if "message" in response:
+                    message = response["message"]
+                    msg_string = ISIGHTPARTNERS_ERR_FROM_SERVER.format(
+                        error=message.get("error", "Not specified"), description=message.get("description", "Not specified")
+                    )
             else:
                 msg_string = self._normalize_reply(r.text)
 
-            self.save_progress("Error Downloading report. {0}".format(msg_string))
+            self.save_progress(f"Error Downloading report. {msg_string}")
 
             return (action_result.set_status(phantom.APP_ERROR, msg_string), None)
 
         if r.status_code == requests.codes.ok:  # pylint: disable=maybe-no-member
             temp_dir = tempfile.mkdtemp()
-            file_name = "isight_report_{}.pdf".format(report_id)
+            file_name = f"isight_report_{report_id}.pdf"
             file_path = os.path.join(temp_dir, file_name)
-            with open(file_path, 'wb') as f:
+            with open(file_path, "wb") as f:
                 f.write(r.content)
 
             self._move_file_to_vault(container_id, os.path.getsize(file_path), ISIGHTPARTNER_REPORT_FILE_TYPE, file_path, action_result)
@@ -825,7 +795,6 @@ class IsightpartnersConnector(BaseConnector):
         return phantom.APP_SUCCESS
 
     def _move_file_to_vault(self, container_id, file_size, type_str, local_file_path, action_result):
-
         self.save_progress(phantom.APP_PROG_ADDING_TO_VAULT)
 
         # lets move the data into the vault
@@ -841,22 +810,21 @@ class IsightpartnersConnector(BaseConnector):
 
         file_name = os.path.basename(local_file_path)
         success, message, vault_id = ph_rules.vault_add(
-            file_location=local_file_path, container=container_id, file_name=file_name, metadata=vault_details)
+            file_location=local_file_path, container=container_id, file_name=file_name, metadata=vault_details
+        )
 
         if success:
             vault_details[phantom.APP_JSON_VAULT_ID] = vault_id
             vault_details[phantom.APP_JSON_NAME] = file_name
             action_result.set_status(phantom.APP_SUCCESS, ISIGHTPARTNERS_SUCC_FILE_ADD_TO_VAULT, vault_id=vault_id)
         else:
-            self.debug_print(
-                'Error Adding file to vault: success={}, message={}, vault_id={}'.format(success, message, vault_id))
+            self.debug_print(f"Error Adding file to vault: success={success}, message={message}, vault_id={vault_id}")
             action_result.set_status(phantom.APP_ERROR, phantom.APP_ERR_FILE_ADD_TO_VAULT)
-            action_result.append_to_message('. {}'.format(message))
+            action_result.append_to_message(f". {message}")
 
         return vault_details
 
     def handle_action(self, param):
-
         result = None
         action = self.get_action_identifier()
 
@@ -878,18 +846,18 @@ class IsightpartnersConnector(BaseConnector):
             end_time = time.time()
             diff_time = end_time - start_time
             human_time = str(timedelta(seconds=int(diff_time)))
-            self.save_progress("Time taken: {0}".format(human_time))
+            self.save_progress(f"Time taken: {human_time}")
 
         return result
 
 
-if __name__ == '__main__':
-
+if __name__ == "__main__":
     try:
         import simplejson as json
     except:
         pass
     import pudb
+
     pudb.set_trace()
 
     if len(sys.argv) < 2:
@@ -899,7 +867,7 @@ if __name__ == '__main__':
     with open(sys.argv[1]) as f:
         in_json = f.read()
         in_json = json.loads(in_json)
-        print(json.dumps(in_json, indent=' ' * 4))
+        print(json.dumps(in_json, indent=" " * 4))
 
         connector = IsightpartnersConnector()
         connector.print_progress_message = True
