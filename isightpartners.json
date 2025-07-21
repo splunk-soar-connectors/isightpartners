@@ -15,7 +15,7 @@
     "latest_tested_versions": [
         "iSight Partners (FireEye) Cloud, 2021 on 03/09/2021"
     ],
-    "python_version": "3",
+    "python_version": ["3.9", "3.13"],
     "publisher": "Splunk Community",
     "logo": "logo_isightpartners.svg",
     "logo_dark": "logo_isightpartners_dark.svg",
