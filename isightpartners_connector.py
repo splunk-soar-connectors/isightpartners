@@ -1,6 +1,6 @@
 # File: isightpartners_connector.py
 #
-# Copyright (c) 2014-2025 Splunk Inc.
+# Copyright (c) 2014-2026 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import tempfile
 import time
 from datetime import datetime, timedelta
 from operator import itemgetter
+from urllib.parse import quote
 
 import phantom.app as phantom
 import phantom.rules as ph_rules
@@ -275,7 +276,7 @@ class IsightpartnersConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _get_report_details(self, report_id, action_result):
-        endpoint = f"/report/{report_id}"
+        endpoint = f"/report/{quote(str(report_id), safe='')}"
 
         query_params = {"detail": "full"}
 
@@ -743,7 +744,7 @@ class IsightpartnersConnector(BaseConnector):
     def _download_report_pdf(self, report_id, container_id, action_result):
         self.send_progress(ISIGHTPARTNERS_MSG_DOWNLOADING_REPORT)
 
-        endpoint = f"/report/{report_id}"
+        endpoint = f"/report/{quote(str(report_id), safe='')}"
         query_params = {"detail": "full", "format": "pdf"}
 
         uri = self._get_uri(endpoint, query_params)
