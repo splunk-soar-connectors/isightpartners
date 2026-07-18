@@ -1,9 +1,9 @@
 # iSight Partners
 
-Publisher: Splunk Community \
-Connector Version: 3.0.1 \
-Product Vendor: iSight Partners \
-Product Name: ThreatScape \
+Publisher: Splunk Community <br>
+Connector Version: 3.0.1 <br>
+Product Vendor: iSight Partners <br>
+Product Name: ThreatScape <br>
 Minimum Product Version: 5.1.0
 
 This app integrates with iSight Partners' ThreatScape product to pull campaign reports and provide hunting capabilities
@@ -22,19 +22,19 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 
 ### Supported Actions
 
-[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity \
-[hunt file](#action-hunt-file) - Look for information about a file hash in the ThreatScape product database \
-[hunt domain](#action-hunt-domain) - Look for information about a domain in the ThreatScape product database \
-[hunt ip](#action-hunt-ip) - Look for information about an IP in the ThreatScape product database \
-[hunt url](#action-hunt-url) - Look for information about a URL in the ThreatScape product database \
-[get report](#action-get-report) - Get report details \
+[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity <br>
+[hunt file](#action-hunt-file) - Look for information about a file hash in the ThreatScape product database <br>
+[hunt domain](#action-hunt-domain) - Look for information about a domain in the ThreatScape product database <br>
+[hunt ip](#action-hunt-ip) - Look for information about an IP in the ThreatScape product database <br>
+[hunt url](#action-hunt-url) - Look for information about a URL in the ThreatScape product database <br>
+[get report](#action-get-report) - Get report details <br>
 [on poll](#action-on-poll) - Callback action for the on_poll ingest functionality
 
 ## action: 'test connectivity'
 
 Validate the asset configuration for connectivity
 
-Type: **test** \
+Type: **test** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -49,7 +49,7 @@ No Output
 
 Look for information about a file hash in the ThreatScape product database
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -83,7 +83,7 @@ summary.total_objects_successful | numeric | | |
 
 Look for information about a domain in the ThreatScape product database
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -117,7 +117,7 @@ summary.total_objects_successful | numeric | | |
 
 Look for information about an IP in the ThreatScape product database
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -151,7 +151,7 @@ summary.total_objects_successful | numeric | | |
 
 Look for information about a URL in the ThreatScape product database
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -185,7 +185,7 @@ summary.total_objects_successful | numeric | | |
 
 Get report details
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -246,7 +246,7 @@ summary.total_objects_successful | numeric | | |
 
 Callback action for the on_poll ingest functionality
 
-Type: **ingest** \
+Type: **ingest** <br>
 Read only: **True**
 
 <table><tr><th>Parameter</th><th>Default Value</th></tr><tr><td>Start Time</td><td>Past 10 days</td></tr><tr><td>End Time</td><td>Now</td></tr></table>
@@ -269,7 +269,7 @@ ______________________________________________________________________
 
 Auto-generated Splunk SOAR Connector documentation.
 
-Copyright 2025 Splunk Inc.
+Copyright 2026 Splunk Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
