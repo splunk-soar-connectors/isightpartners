@@ -1,3 +1,1 @@
 **Unreleased**
-
-* Encoded report identifiers before placing them in authenticated iSight API paths.
