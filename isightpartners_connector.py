@@ -275,8 +275,19 @@ class IsightpartnersConnector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
+    def _validate_report_id(self, report_id, action_result):
+        report_id = str(report_id)
+        if report_id in {".", ".."}:
+            return action_result.set_status(phantom.APP_ERROR, "Please provide a valid report ID"), None
+
+        return phantom.APP_SUCCESS, quote(report_id, safe="")
+
     def _get_report_details(self, report_id, action_result):
-        endpoint = f"/report/{quote(str(report_id), safe='')}"
+        ret_val, encoded_report_id = self._validate_report_id(report_id, action_result)
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
+        endpoint = f"/report/{encoded_report_id}"
 
         query_params = {"detail": "full"}
 
@@ -744,7 +755,11 @@ class IsightpartnersConnector(BaseConnector):
     def _download_report_pdf(self, report_id, container_id, action_result):
         self.send_progress(ISIGHTPARTNERS_MSG_DOWNLOADING_REPORT)
 
-        endpoint = f"/report/{quote(str(report_id), safe='')}"
+        ret_val, encoded_report_id = self._validate_report_id(report_id, action_result)
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
+        endpoint = f"/report/{encoded_report_id}"
         query_params = {"detail": "full", "format": "pdf"}
 
         uri = self._get_uri(endpoint, query_params)
@@ -785,7 +800,7 @@ class IsightpartnersConnector(BaseConnector):
 
         if r.status_code == requests.codes.ok:  # pylint: disable=maybe-no-member
             temp_dir = tempfile.mkdtemp()
-            file_name = f"isight_report_{report_id}.pdf"
+            file_name = f"isight_report_{encoded_report_id}.pdf"
             file_path = os.path.join(temp_dir, file_name)
             with open(file_path, "wb") as f:
                 f.write(r.content)
