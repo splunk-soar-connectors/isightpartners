@@ -1,7 +1,7 @@
 # iSight Partners
 
 Publisher: Splunk Community <br>
-Connector Version: 3.0.2 <br>
+Connector Version: 3.0.3 <br>
 Product Vendor: iSight Partners <br>
 Product Name: ThreatScape <br>
 Minimum Product Version: 5.1.0
